@@ -1,0 +1,99 @@
+package com.cain96.sns_kanri.Fragment
+
+import android.os.Bundle
+import android.os.Handler
+import android.support.v4.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import com.cain96.sns_kanri.R
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_stop_watch.*
+
+
+class StopWatchFragment : Fragment() {
+    private val handler = Handler()
+    private var timeValue = 0
+    private var isMove = false
+
+
+    companion object {
+        fun createInstance(): StopWatchFragment {
+            val stopWatchFragment = StopWatchFragment()
+            val args = Bundle()
+            stopWatchFragment.arguments = args
+            return stopWatchFragment
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        return inflater.inflate(R.layout.fragment_stop_watch, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+
+        timeToText()?.let {
+            timeText.text = it
+        }
+
+        val runnable = object : Runnable {
+            override fun run() {
+                timeValue++
+                timeToText(timeValue)?.let {
+                    timeText.text = it
+                }
+                handler.postDelayed(this, 1000)
+            }
+        }
+
+        start.setOnClickListener {
+            if (!isMove) handler.post(runnable)
+            isMove = true
+        }
+
+        stop.setOnClickListener {
+            if (isMove) handler.removeCallbacks(runnable)
+            isMove = false
+        }
+
+        reset.setOnClickListener {
+            if (isMove) handler.removeCallbacks(runnable)
+            isMove = false
+            timeValue = 0
+            timeToText()?.let {
+                timeText.text = it
+            }
+        }
+    }
+
+    override fun setHasOptionsMenu(hasMenu: Boolean) {
+        super.setHasOptionsMenu(hasMenu)
+        activity?.let {
+            it.tool_bar.title = getString(R.string.stop_watch_menu)
+            it.tool_bar.setNavigationIcon(R.mipmap.baseline_clear_white_24)
+            it.tool_bar.setNavigationOnClickListener {
+                Toast.makeText(activity, "バツ", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun timeToText(time: Int = 0): String? {
+        return if (time < 0) {
+            null
+        } else if (time == 0) {
+            "00:00:00"
+        } else {
+            val h = time / 3600
+            val m = time % 3600 / 60
+            val s = time % 60
+            "%1$02d:%2$02d:%3$02d".format(h, m, s)
+        }
+    }
+
+
+}

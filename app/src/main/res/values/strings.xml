@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">sns_kanri</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- StopWatchFragment -->
+    <string name="stop_watch_menu">Stop Watch</string>
+    <string name="timer_zero">0</string>
+    <string name="command_start">START</string>
+    <string name="command_stop">STOP</string>
+    <string name="command_reset">RESET</string>
 </resources>

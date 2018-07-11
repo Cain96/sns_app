@@ -8,5 +8,5 @@ warn("PR is classed as Work in Progress") if github.pr_title.include? "[WIP]"
 warn("A pull request must have some assignees") if github.pr_json["assignee"].nil?
 
 # ktlint
-checkstyle_format.base_path = 'repo'
-checkstyle_format.report 'build/reports/ktlint/ktlint-main.xml'
+checkstyle_format.base_path = Dir.pwd
+checkstyle_format.report 'app/build/reports/ktlint/ktlint-debug.xml'

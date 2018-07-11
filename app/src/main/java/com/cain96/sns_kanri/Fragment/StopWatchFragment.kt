@@ -11,12 +11,10 @@ import com.cain96.sns_kanri.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_stop_watch.*
 
-
 class StopWatchFragment : Fragment() {
     private val handler = Handler()
     private var timeValue = 0
     private var isMove = false
-
 
     companion object {
         fun createInstance(): StopWatchFragment {
@@ -27,8 +25,11 @@ class StopWatchFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.fragment_stop_watch, container, false)
     }
@@ -94,6 +95,4 @@ class StopWatchFragment : Fragment() {
             "%1$02d:%2$02d:%3$02d".format(h, m, s)
         }
     }
-
-
 }

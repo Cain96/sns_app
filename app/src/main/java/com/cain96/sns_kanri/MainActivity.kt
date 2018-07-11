@@ -3,7 +3,6 @@ package com.cain96.sns_kanri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.cain96.sns_kanri.Fragment.StopWatchFragment
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 

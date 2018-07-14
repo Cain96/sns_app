@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.cain96.sns_kanri.MainActivity
+import com.cain96.sns_kanri.Picker.DatePick
 import com.cain96.sns_kanri.R
+import com.cain96.sns_kanri.Utils.toString
 import kotlinx.android.synthetic.main.fragment_record.*
 
 class RecordFragment : Fragment() {
@@ -33,9 +35,15 @@ class RecordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainActivity.record.date.toString("yyyy/MM/dd")?.let {
+            btn_date.text = it
+        }
 
-        timeToText(mainActivity.hour, mainActivity.minutes)?.let {
+        timeToText(mainActivity.record.hour, mainActivity.record.minutes)?.let {
             btn_time.text = it
+        }
+        btn_date.setOnClickListener {
+            DatePick().show(fragmentManager, "datePicker")
         }
         timer.setOnClickListener {
             mainActivity.transitionHelper

@@ -1,4 +1,4 @@
-package com.cain96.sns_kanri.Picker
+package com.cain96.sns_kanri.Dialog
 
 import android.app.DatePickerDialog
 import android.app.Dialog

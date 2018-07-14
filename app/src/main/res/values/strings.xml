@@ -8,4 +8,14 @@
     <string name="command_start">START</string>
     <string name="command_stop">STOP</string>
     <string name="command_reset">RESET</string>
+
+    <!-- TimeSetDialog -->
+    <string name="time_set_title">使用時間</string>
+    <string name="time_set_hour">時間</string>
+    <string name="time_set_minutes">分</string>
+    <string name="ok">OK</string>
+    <string name="cancel">キャンセル</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

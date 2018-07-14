@@ -5,8 +5,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.cain96.sns_kanri.Dialog.DatePick
+import com.cain96.sns_kanri.Dialog.TimeSetDialog
 import com.cain96.sns_kanri.MainActivity
-import com.cain96.sns_kanri.Picker.DatePick
 import com.cain96.sns_kanri.R
 import com.cain96.sns_kanri.Utils.toString
 import kotlinx.android.synthetic.main.fragment_record.*
@@ -45,6 +46,19 @@ class RecordFragment : Fragment() {
         btn_date.setOnClickListener {
             DatePick().show(fragmentManager, "datePicker")
         }
+        btn_time.setOnClickListener {
+            val timeSetFragment = TimeSetDialog.createInstance(mainActivity.record)
+            timeSetFragment.okButtonClickListener = View.OnClickListener {
+                mainActivity.record.hour = timeSetFragment.hour()
+                mainActivity.record.minutes = timeSetFragment.minutes()
+                timeToText(mainActivity.record.hour, mainActivity.record.minutes)?.let {
+                    btn_time.text = it
+                }
+                timeSetFragment.dismiss()
+            }
+            timeSetFragment.show(fragmentManager, "timeSet")
+            timeSetFragment.isCancelable = true
+        }
         timer.setOnClickListener {
             mainActivity.transitionHelper
                 .replaceTransition(fragmentManager, StopWatchFragment.createInstance(mainActivity))
@@ -55,7 +69,7 @@ class RecordFragment : Fragment() {
         return if (h < 0 || m < 0) {
             null
         } else {
-            "%1$02d:%2$02d".format(h, m)
+            "%1$02d : %2$02d".format(h, m)
         }
     }
 }

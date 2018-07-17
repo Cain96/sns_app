@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.NumberPicker
-import com.cain96.sns_kanri.Data.Record
+import com.cain96.sns_kanri.Data.InternalRecord
 import com.cain96.sns_kanri.R
 import kotlinx.android.synthetic.main.dialog_time_set.*
 import java.io.Serializable
@@ -16,7 +16,7 @@ import java.io.Serializable
 class TimeSetDialog : DialogFragment() {
     lateinit var okButtonClickListener: View.OnClickListener
 
-    lateinit var record: Record
+    lateinit var internalRecord: InternalRecord
 
     companion object {
         fun createInstance(record: Serializable): TimeSetDialog {
@@ -41,15 +41,15 @@ class TimeSetDialog : DialogFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val bundle = arguments
-        record = bundle?.getSerializable("RECORD") as Record
+        internalRecord = bundle?.getSerializable("RECORD") as InternalRecord
         return inflater.inflate(R.layout.dialog_time_set, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setNumberPicker(num_picker_hour, 23, 0, record.hour)
-        setNumberPicker(num_picker_minutes1, 5, 0, record.minutes / 10)
-        setNumberPicker(num_picker_minutes2, 9, 0, record.minutes % 10)
+        setNumberPicker(num_picker_hour, 23, 0, internalRecord.hour)
+        setNumberPicker(num_picker_minutes1, 5, 0, internalRecord.minutes / 10)
+        setNumberPicker(num_picker_minutes2, 9, 0, internalRecord.minutes % 10)
         btn_time_set_ok.setOnClickListener(okButtonClickListener)
         btn_time_set_cancel.setOnClickListener {
             this.dismiss()

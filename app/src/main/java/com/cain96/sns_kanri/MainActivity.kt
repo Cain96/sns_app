@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.fragment_record.*
 
 class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     val transitionHelper = TransitionHelper()
-    var record = Record()
+    var record = InternalRecord()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

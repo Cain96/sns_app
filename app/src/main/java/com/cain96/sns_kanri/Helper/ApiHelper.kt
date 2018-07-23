@@ -9,6 +9,7 @@ import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.fuel.moshi.responseObject
 import com.github.kittinunf.result.Result
 import kotlinx.coroutines.experimental.async
 
@@ -60,10 +61,30 @@ class ApiHelper {
             is Result.Success -> {
                 Log.d("SNS", "success")
                 val (sns_list, err) = result
+                return sns_list
             }
             is Result.Failure -> {
                 Log.d("SNS", "fail")
-                Log.d("login", request.cUrlString())
+                Log.d("SNS", request.cUrlString())
+            }
+        }
+        return null
+    }
+
+    suspend fun getSns(id: Int): Sns? {
+        Log.d("SNS", "start")
+        val (request, _, result) = async {
+            return@async "/sns/%s".format(id).httpGet().responseObject<Sns>()
+        }.await()
+        when (result) {
+            is Result.Success -> {
+                Log.d("SNS", "success")
+                val (sns, err) = result
+                return sns
+            }
+            is Result.Failure -> {
+                Log.d("SNS", "fail")
+                Log.d("SNS", request.cUrlString())
             }
         }
         return null

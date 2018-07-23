@@ -36,12 +36,19 @@ class RecordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainActivity.record.sns?.let {
+            btn_sns.text = it.name
+        }
         mainActivity.record.date.toString("yyyy/MM/dd")?.let {
             btn_date.text = it
         }
-
         timeToText(mainActivity.record.hour, mainActivity.record.minutes)?.let {
             btn_time.text = it
+        }
+
+        btn_sns.setOnClickListener {
+            mainActivity.transitionHelper
+                .replaceTransition(fragmentManager, SelectFragment.createInstance(mainActivity))
         }
         btn_date.setOnClickListener {
             DatePick().show(fragmentManager, "datePicker")

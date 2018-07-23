@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.DatePicker
 import com.cain96.sns_kanri.Data.InternalRecord
-import com.cain96.sns_kanri.Fragment.SelectFragment
+import com.cain96.sns_kanri.Fragment.RecordFragment
 import com.cain96.sns_kanri.Helper.ApiHelper
 import com.cain96.sns_kanri.Helper.TransitionHelper
 import com.cain96.sns_kanri.Utils.toDate
@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
         runBlocking {
             apiHelper.requestLogin()
+        }
+        record.sns = runBlocking {
+            return@runBlocking apiHelper.getSns(1)!!
         }
 
         if (savedInstanceState == null) {

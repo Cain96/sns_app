@@ -9,4 +9,19 @@ class InternalRecord(
     var hour: Int = 0,
     var minutes: Int = 0,
     var sns: Sns = Sns(id = 1)
-) : Serializable
+) : Serializable {
+    fun timeToText(): String? {
+        return if (hour < 0 || minutes < 0) {
+            null
+        } else {
+            "%1$02d : %2$02d".format(hour, minutes)
+        }
+    }
+    fun time(): String? {
+        return if (hour < 0 || minutes < 0) {
+            null
+        } else {
+            "%1$02d:%2$02d:00".format(hour, minutes)
+        }
+    }
+}

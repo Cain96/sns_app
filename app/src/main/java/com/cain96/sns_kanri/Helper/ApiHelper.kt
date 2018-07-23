@@ -1,6 +1,7 @@
 package com.cain96.sns_kanri.Helper
 
 import android.util.Log
+import com.cain96.sns_kanri.Data.InternalRecord
 import com.cain96.sns_kanri.Data.Record.Records
 import com.cain96.sns_kanri.Data.Record.RecordsDeserializer
 import com.cain96.sns_kanri.Data.Sns.Sns
@@ -12,6 +13,7 @@ import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.moshi.responseObject
 import com.github.kittinunf.result.Result
 import kotlinx.coroutines.experimental.async
+import java.text.SimpleDateFormat
 
 class ApiHelper {
     var manager: FuelManager = FuelManager.instance
@@ -107,5 +109,31 @@ class ApiHelper {
             }
         }
         return null
+    }
+
+    suspend fun createRecord(record: InternalRecord): Boolean {
+        Log.d("Record", "start")
+        val df = SimpleDateFormat("yyyy-MM-dd")
+        val body: String = """{
+            "sns": ${record.sns.id},
+            "date": "${df.format(record.date)}",
+            "time": "${record.time()}"
+        }""".trimIndent()
+
+        val (request, _, result) = async {
+            return@async "/record/".httpPost().body(body).responseJson()
+        }.await()
+
+        when (result) {
+            is Result.Success -> {
+                Log.d("Record", "success")
+                return true
+            }
+            is Result.Failure -> {
+                Log.d("Record", "fail")
+                Log.d("Record", request.cUrlString())
+                return false
+            }
+        }
     }
 }

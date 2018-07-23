@@ -9,8 +9,11 @@ import com.cain96.sns_kanri.Dialog.DatePick
 import com.cain96.sns_kanri.Dialog.TimeSetDialog
 import com.cain96.sns_kanri.MainActivity
 import com.cain96.sns_kanri.R
+import com.cain96.sns_kanri.Utils.showErrorToast
+import com.cain96.sns_kanri.Utils.showSuccessToast
 import com.cain96.sns_kanri.Utils.toString
 import kotlinx.android.synthetic.main.fragment_record.*
+import kotlinx.coroutines.experimental.runBlocking
 
 class RecordFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
@@ -42,7 +45,7 @@ class RecordFragment : Fragment() {
         mainActivity.record.date.toString("yyyy/MM/dd")?.let {
             btn_date.text = it
         }
-        timeToText(mainActivity.record.hour, mainActivity.record.minutes)?.let {
+        mainActivity.record.timeToText()?.let {
             btn_time.text = it
         }
 
@@ -58,7 +61,7 @@ class RecordFragment : Fragment() {
             timeSetFragment.okButtonClickListener = View.OnClickListener {
                 mainActivity.record.hour = timeSetFragment.hour()
                 mainActivity.record.minutes = timeSetFragment.minutes()
-                timeToText(mainActivity.record.hour, mainActivity.record.minutes)?.let {
+                mainActivity.record.timeToText()?.let {
                     btn_time.text = it
                 }
                 timeSetFragment.dismiss()
@@ -70,13 +73,15 @@ class RecordFragment : Fragment() {
             mainActivity.transitionHelper
                 .replaceTransition(fragmentManager, StopWatchFragment.createInstance(mainActivity))
         }
-    }
-
-    private fun timeToText(h: Int = 0, m: Int = 0): String? {
-        return if (h < 0 || m < 0) {
-            null
-        } else {
-            "%1$02d : %2$02d".format(h, m)
+        btn_submit.setOnClickListener {
+            val issubmit = runBlocking {
+                return@runBlocking mainActivity.apiHelper.createRecord(mainActivity.record)
+            }
+            if (issubmit) {
+                showSuccessToast(mainActivity, "Success")
+            } else {
+                showErrorToast(mainActivity, "Error")
+            }
         }
     }
 }

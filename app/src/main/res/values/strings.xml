@@ -8,4 +8,18 @@
     <string name="command_start">START</string>
     <string name="command_stop">STOP</string>
     <string name="command_reset">RESET</string>
+
+    <!-- SelectFragment -->
+    <string name="select_menu">SNS選択</string>
+
+    <!-- TimeSetDialog -->
+    <string name="time_set_title">使用時間</string>
+    <string name="time_set_hour">時間</string>
+    <string name="time_set_minutes">分</string>
+    <string name="ok">OK</string>
+    <string name="cancel">キャンセル</string>
+
+    <!-- RecordFragment -->
+    <string name="record_submit">記録</string>
+
 </resources>

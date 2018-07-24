@@ -6,29 +6,34 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import com.cain96.sns_kanri.MainActivity
 import com.cain96.sns_kanri.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_stop_watch.*
 
-
 class StopWatchFragment : Fragment() {
+    private lateinit var mainActivity: MainActivity
+
     private val handler = Handler()
     private var timeValue = 0
     private var isMove = false
-
+    private lateinit var runnable: Runnable
 
     companion object {
-        fun createInstance(): StopWatchFragment {
+        fun createInstance(mainActivity: MainActivity): StopWatchFragment {
             val stopWatchFragment = StopWatchFragment()
             val args = Bundle()
+            stopWatchFragment.mainActivity = mainActivity
             stopWatchFragment.arguments = args
             return stopWatchFragment
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.fragment_stop_watch, container, false)
     }
@@ -41,7 +46,7 @@ class StopWatchFragment : Fragment() {
             timeText.text = it
         }
 
-        val runnable = object : Runnable {
+        runnable = object : Runnable {
             override fun run() {
                 timeValue++
                 timeToText(timeValue)?.let {
@@ -59,6 +64,9 @@ class StopWatchFragment : Fragment() {
         stop.setOnClickListener {
             if (isMove) handler.removeCallbacks(runnable)
             isMove = false
+            mainActivity.setTime(timeValue)
+            mainActivity.transitionHelper
+                .replaceTransition(fragmentManager, RecordFragment.createInstance(mainActivity))
         }
 
         reset.setOnClickListener {
@@ -77,7 +85,9 @@ class StopWatchFragment : Fragment() {
             it.tool_bar.title = getString(R.string.stop_watch_menu)
             it.tool_bar.setNavigationIcon(R.mipmap.baseline_clear_white_24)
             it.tool_bar.setNavigationOnClickListener {
-                Toast.makeText(activity, "バツ", Toast.LENGTH_SHORT).show()
+                handler.removeCallbacks(runnable)
+                mainActivity.transitionHelper
+                    .replaceTransition(fragmentManager, RecordFragment.createInstance(mainActivity))
             }
         }
     }
@@ -94,6 +104,4 @@ class StopWatchFragment : Fragment() {
             "%1$02d:%2$02d:%3$02d".format(h, m, s)
         }
     }
-
-
 }

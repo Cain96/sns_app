@@ -92,7 +92,7 @@ class ApiHelper {
         return null
     }
 
-    suspend fun requestRecord(): Records? {
+    suspend fun requestRecords(): Records? {
         Log.d("Record", "start")
         val (request, _, result) = async {
             return@async "/record/".httpGet().responseObject(RecordsDeserializer())

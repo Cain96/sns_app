@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.DatePicker
 import com.cain96.sns_kanri.Data.InternalRecord
-import com.cain96.sns_kanri.Fragment.RecordFragment
+import com.cain96.sns_kanri.Fragment.TabFragment
 import com.cain96.sns_kanri.Helper.ApiHelper
 import com.cain96.sns_kanri.Helper.TransitionHelper
 import com.cain96.sns_kanri.Utils.toDate
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
         if (savedInstanceState == null) {
             val transaction = supportFragmentManager.beginTransaction()
-            transaction.add(R.id.mainContainer, RecordFragment.createInstance(this))
+            transaction.add(R.id.mainContainer, TabFragment.createInstance(this))
             transaction.commit()
         }
     }

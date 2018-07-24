@@ -54,7 +54,7 @@ class SelectFragment : Fragment() {
         }
         snsList?.reversed()?.forEachIndexed { i, sns ->
             if (i % 3 == 0) horizontal = createHorizontalLayout(oneThird)
-            val layoutParams = createLayout(horizontal, oneThird)
+            val layoutParams = createLayout(oneThird)
             val button = createButton(sns, oneThird)
             horizontal.addView(button, layoutParams)
             if (i % 3 == 2 || i == lastIndex) layout.addView(horizontal)
@@ -99,7 +99,7 @@ class SelectFragment : Fragment() {
         return button
     }
 
-    private fun createLayout(layout: LinearLayout, buttonSize: Int): LinearLayout.LayoutParams {
+    private fun createLayout(buttonSize: Int): LinearLayout.LayoutParams {
         var layoutParams = LinearLayout.LayoutParams(buttonSize, buttonSize)
         val margin = 5.toPx()
         layoutParams.setMargins(margin, margin, margin, margin)

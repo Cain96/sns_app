@@ -22,4 +22,7 @@
     <!-- RecordFragment -->
     <string name="record_submit">記録</string>
 
+    <!-- RecordListFragment -->
+    <string name="record_none">データがありません</string>
+
 </resources>

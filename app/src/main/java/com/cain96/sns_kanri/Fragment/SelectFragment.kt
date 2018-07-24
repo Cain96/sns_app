@@ -68,7 +68,7 @@ class SelectFragment : Fragment() {
             it.tool_bar.setNavigationIcon(R.mipmap.baseline_clear_white_24)
             it.tool_bar.setNavigationOnClickListener {
                 mainActivity.transitionHelper
-                    .replaceTransition(fragmentManager, RecordFragment.createInstance(mainActivity))
+                    .replaceTransition(fragmentManager, TabFragment.createInstance(mainActivity))
             }
         }
     }
@@ -93,7 +93,7 @@ class SelectFragment : Fragment() {
         button.setOnClickListener {
             mainActivity.record.sns = sns.copy()
             mainActivity.transitionHelper.replaceTransition(
-                fragmentManager, RecordFragment.createInstance(mainActivity)
+                fragmentManager, TabFragment.createInstance(mainActivity)
             )
         }
         return button

@@ -66,7 +66,7 @@ class StopWatchFragment : Fragment() {
             isMove = false
             mainActivity.setTime(timeValue)
             mainActivity.transitionHelper
-                .replaceTransition(fragmentManager, RecordFragment.createInstance(mainActivity))
+                .replaceTransition(fragmentManager, TabFragment.createInstance(mainActivity))
         }
 
         reset.setOnClickListener {
@@ -87,7 +87,7 @@ class StopWatchFragment : Fragment() {
             it.tool_bar.setNavigationOnClickListener {
                 handler.removeCallbacks(runnable)
                 mainActivity.transitionHelper
-                    .replaceTransition(fragmentManager, RecordFragment.createInstance(mainActivity))
+                    .replaceTransition(fragmentManager, TabFragment.createInstance(mainActivity))
             }
         }
     }

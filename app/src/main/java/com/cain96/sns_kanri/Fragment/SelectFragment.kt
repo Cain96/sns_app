@@ -15,7 +15,6 @@ import com.cain96.sns_kanri.Utils.getDisplaySize
 import com.cain96.sns_kanri.Utils.toPx
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_select.*
-import kotlinx.coroutines.experimental.runBlocking
 
 class SelectFragment : Fragment() {
     lateinit var mainActivity: MainActivity
@@ -42,12 +41,9 @@ class SelectFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        val layout = select_container
+        val snsList = mainActivity.snsList
         val point = getDisplaySize(mainActivity)
         val oneThird = point.x / 3 - 10.toPx()
-        val snsList = runBlocking {
-            mainActivity.apiHelper.requestSns()
-        }
         lateinit var horizontal: LinearLayout
         val lastIndex = snsList?.let {
             return@let it.lastIndex
@@ -57,7 +53,7 @@ class SelectFragment : Fragment() {
             val layoutParams = createLayout(oneThird)
             val button = createButton(sns, oneThird)
             horizontal.addView(button, layoutParams)
-            if (i % 3 == 2 || i == lastIndex) layout.addView(horizontal)
+            if (i % 3 == 2 || i == lastIndex) select_container.addView(horizontal)
         }
     }
 

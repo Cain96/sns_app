@@ -43,6 +43,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     implementation "com.squareup.moshi:moshi:$moshi_version"
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    implementation "com.github.PhilJay:MPAndroidChart:v$mp_android_chart_version"
 }
 
 ktlint {

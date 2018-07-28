@@ -25,4 +25,11 @@
     <!-- RecordListFragment -->
     <string name="record_none">データがありません</string>
 
+    <!-- ReportFragment -->
+    <string name="report_none">データがありません</string>
+    <string name="today">今日</string>
+    <string name="week">今週</string>
+    <string name="month">今月</string>
+    <string name="hour">時間</string>
+
 </resources>

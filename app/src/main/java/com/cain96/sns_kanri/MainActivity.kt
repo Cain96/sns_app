@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.DatePicker
 import com.cain96.sns_kanri.Data.InternalRecord
+import com.cain96.sns_kanri.Data.Sns.Sns
 import com.cain96.sns_kanri.Fragment.TabFragment
 import com.cain96.sns_kanri.Helper.ApiHelper
 import com.cain96.sns_kanri.Helper.TransitionHelper
@@ -16,22 +17,26 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     val transitionHelper = TransitionHelper()
     var apiHelper = ApiHelper.createInstance()
     var record = InternalRecord()
+    var snsList: List<Sns>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        runBlocking {
-            apiHelper.requestLogin()
-        }
-        record.sns = runBlocking {
-            return@runBlocking apiHelper.getSns(1)!!
-        }
-
         if (savedInstanceState == null) {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.add(R.id.mainContainer, TabFragment.createInstance(this))
             transaction.commit()
+        }
+
+        runBlocking {
+            apiHelper.requestLogin()
+        }
+        snsList = runBlocking {
+            return@runBlocking apiHelper.requestSns()
+        }
+        snsList?.let {
+            record.sns = it[0]
         }
     }
 

@@ -39,9 +39,7 @@ class RecordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainActivity.record.sns?.let {
-            btn_sns.text = it.name
-        }
+        btn_sns.text = mainActivity.record.sns.name
         mainActivity.record.date.toString("yyyy/MM/dd")?.let {
             btn_date.text = it
         }

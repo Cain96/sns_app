@@ -64,7 +64,7 @@ class ApiHelper {
         }.await()
         when (result) {
             is Result.Success -> {
-                val (sns_list, err) = result
+                val (sns_list, _) = result
                 return sns_list
             }
             is Result.Failure -> {
@@ -81,7 +81,7 @@ class ApiHelper {
         }.await()
         when (result) {
             is Result.Success -> {
-                val (sns, err) = result
+                val (sns, _) = result
                 return sns
             }
             is Result.Failure -> {
@@ -98,7 +98,7 @@ class ApiHelper {
         }.await()
         when (result) {
             is Result.Success -> {
-                val (records, err) = result
+                val (records, _) = result
                 return records
             }
             is Result.Failure -> {
@@ -144,7 +144,7 @@ class ApiHelper {
         }.await()
         when (result) {
             is Result.Success -> {
-                val (statistics, err) = result
+                val (statistics, _) = result
                 return statistics
             }
             is Result.Failure -> {
@@ -161,7 +161,7 @@ class ApiHelper {
         }.await()
         when (result) {
             is Result.Success -> {
-                val (time, err) = result
+                val (time, _) = result
                 return time
             }
             is Result.Failure -> {

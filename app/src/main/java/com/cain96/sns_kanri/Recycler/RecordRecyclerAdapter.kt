@@ -26,7 +26,7 @@ class RecordRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: RecordRecyclerViewHolder, position: Int) {
-        holder?.let {
+        holder.let {
             if (itemList.isNotEmpty()) {
                 val record: Record = itemList[position]
                 it.itemSns.text = record.sns

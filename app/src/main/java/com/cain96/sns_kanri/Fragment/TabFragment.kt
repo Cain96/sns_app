@@ -3,7 +3,6 @@ package com.cain96.sns_kanri.Fragment
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,8 @@ class TabFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
     private val icons: List<Int> = listOf(
         R.drawable.baseline_create_24,
-        R.drawable.baseline_list_alt_24
+        R.drawable.baseline_list_alt_24,
+        R.drawable.baseline_pie_chart_24
     )
 
     companion object {
@@ -41,10 +41,9 @@ class TabFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("tab", "tab")
         mainActivity.tool_bar.visibility = View.INVISIBLE
         val adapter = CustomFragmentPagerAdapter(fragmentManager as FragmentManager, mainActivity)
-        view_pager.offscreenPageLimit = 2
+        view_pager.offscreenPageLimit = 3
         view_pager.adapter = adapter
         tab_layout.setupWithViewPager(view_pager)
         setIcons()

@@ -4,6 +4,7 @@ import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 
 fun String.toDate(pattern: String = "yyyy/MM/dd HH:mm:ss"): Date? {
@@ -36,6 +37,24 @@ fun Date.toString(pattern: String = "yyyy/MM/dd HH:mm:ss"): String? {
         }
     }
     return date
+}
+
+fun Date.rangeList(range: Int): List<Date> {
+    val dateList: ArrayList<Date> = ArrayList()
+    val calendar = Calendar.getInstance()
+    for (i in 0 downTo range) {
+        calendar.time = this
+        calendar.add(Calendar.DAY_OF_MONTH, i)
+        dateList.add(calendar.time)
+    }
+    return dateList.reversed()
+}
+
+fun Date.add(num: Int): Date {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+    calendar.add(Calendar.DAY_OF_MONTH, num)
+    return calendar.time
 }
 
 class DateAdapter {

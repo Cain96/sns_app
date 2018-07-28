@@ -6,6 +6,10 @@ import com.cain96.sns_kanri.Data.Record.Records
 import com.cain96.sns_kanri.Data.Record.RecordsDeserializer
 import com.cain96.sns_kanri.Data.Sns.Sns
 import com.cain96.sns_kanri.Data.Sns.SnsListDeserializer
+import com.cain96.sns_kanri.Data.Statistics.Statistics
+import com.cain96.sns_kanri.Data.Statistics.StatisticsDeserializer
+import com.cain96.sns_kanri.Data.Statistics.Time
+import com.cain96.sns_kanri.Utils.toString
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.httpGet
@@ -14,6 +18,7 @@ import com.github.kittinunf.fuel.moshi.responseObject
 import com.github.kittinunf.result.Result
 import kotlinx.coroutines.experimental.async
 import java.text.SimpleDateFormat
+import java.util.Date
 
 class ApiHelper {
     var manager: FuelManager = FuelManager.instance
@@ -28,7 +33,6 @@ class ApiHelper {
     }
 
     suspend fun requestLogin(email: String = "admin@sample.com", password: String = "hogefuga") {
-        Log.d("login", "start")
         val body: String = """{
             "email" : "$email",
             "password": "$password"
@@ -55,13 +59,11 @@ class ApiHelper {
     }
 
     suspend fun requestSns(): List<Sns>? {
-        Log.d("SNS", "start")
         val (request, _, result) = async {
             return@async "/sns/".httpGet().responseObject(SnsListDeserializer())
         }.await()
         when (result) {
             is Result.Success -> {
-                Log.d("SNS", "success")
                 val (sns_list, err) = result
                 return sns_list
             }
@@ -74,13 +76,11 @@ class ApiHelper {
     }
 
     suspend fun getSns(id: Int): Sns? {
-        Log.d("SNS", "start")
         val (request, _, result) = async {
             return@async "/sns/%s".format(id).httpGet().responseObject<Sns>()
         }.await()
         when (result) {
             is Result.Success -> {
-                Log.d("SNS", "success")
                 val (sns, err) = result
                 return sns
             }
@@ -93,13 +93,11 @@ class ApiHelper {
     }
 
     suspend fun requestRecords(): Records? {
-        Log.d("Record", "start")
         val (request, _, result) = async {
             return@async "/record/".httpGet().responseObject(RecordsDeserializer())
         }.await()
         when (result) {
             is Result.Success -> {
-                Log.d("Record", "success")
                 val (records, err) = result
                 return records
             }
@@ -112,7 +110,6 @@ class ApiHelper {
     }
 
     suspend fun createRecord(record: InternalRecord): Boolean {
-        Log.d("Record", "start")
         val df = SimpleDateFormat("yyyy-MM-dd")
         val body: String = """{
             "sns": ${record.sns.id},
@@ -126,7 +123,6 @@ class ApiHelper {
 
         when (result) {
             is Result.Success -> {
-                Log.d("Record", "success")
                 return true
             }
             is Result.Failure -> {
@@ -135,5 +131,44 @@ class ApiHelper {
                 return false
             }
         }
+    }
+
+    suspend fun requestStatistics(start_date: Date, end_date: Date): Statistics? {
+        val (request, _, result) = async {
+            return@async "/statistic/".httpGet(
+                listOf(
+                    "date_0" to start_date.toString("yyyy-MM-dd"),
+                    "date_1" to end_date.toString("yyyy-MM-dd")
+                )
+            ).responseObject(StatisticsDeserializer())
+        }.await()
+        when (result) {
+            is Result.Success -> {
+                val (statistics, err) = result
+                return statistics
+            }
+            is Result.Failure -> {
+                Log.d("Statistics", "fail")
+                Log.d("Statistics", request.cUrlString())
+            }
+        }
+        return null
+    }
+
+    suspend fun requestTime(): Time? {
+        val (request, _, result) = async {
+            return@async "/time/".httpGet().responseObject<Time>()
+        }.await()
+        when (result) {
+            is Result.Success -> {
+                val (time, err) = result
+                return time
+            }
+            is Result.Failure -> {
+                Log.d("Time", "fail")
+                Log.d("Time", request.cUrlString())
+            }
+        }
+        return null
     }
 }

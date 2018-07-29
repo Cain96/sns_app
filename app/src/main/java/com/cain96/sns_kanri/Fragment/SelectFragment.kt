@@ -1,5 +1,7 @@
 package com.cain96.sns_kanri.Fragment
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.Gravity
@@ -59,10 +61,10 @@ class SelectFragment : Fragment() {
 
     override fun setHasOptionsMenu(hasMenu: Boolean) {
         super.setHasOptionsMenu(hasMenu)
-        activity?.let {
-            it.tool_bar.title = getString(R.string.select_menu)
-            it.tool_bar.setNavigationIcon(R.mipmap.baseline_clear_white_24)
-            it.tool_bar.setNavigationOnClickListener {
+        activity?.tool_bar?.apply {
+            title = getString(R.string.select_menu)
+            setNavigationIcon(R.mipmap.baseline_clear_white_24)
+            setNavigationOnClickListener {
                 mainActivity.transitionHelper
                     .replaceTransition(fragmentManager, TabFragment.createInstance(mainActivity))
             }
@@ -70,29 +72,33 @@ class SelectFragment : Fragment() {
     }
 
     private fun createHorizontalLayout(height: Int): LinearLayout {
-        var horizontal = LinearLayout(activity)
-        horizontal.orientation = LinearLayout.HORIZONTAL
-        horizontal.layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            height
-        )
-        return horizontal
-    }
-
-    private fun createButton(sns: Sns, buttonSize: Int): Button {
-        var button = Button(activity)
-        button.text = sns.name
-        button.width = buttonSize
-        button.height = buttonSize
-        button.setBackgroundResource(R.drawable.buttonbg)
-        button.gravity = Gravity.CENTER or Gravity.BOTTOM
-        button.setOnClickListener {
-            mainActivity.record.sns = sns.copy()
-            mainActivity.transitionHelper.replaceTransition(
-                fragmentManager, TabFragment.createInstance(mainActivity)
+        return LinearLayout(activity).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                height
             )
         }
-        return button
+    }
+
+    @SuppressLint("Range")
+    private fun createButton(sns: Sns, buttonSize: Int): Button {
+        return Button(activity).apply {
+            text = sns.name
+            width = buttonSize
+            height = buttonSize
+            setBackgroundColor(Color.parseColor(sns.color))
+            gravity = Gravity.CENTER
+            textSize = 23f
+            setTextColor(resources.getColor(R.color.white))
+            setAllCaps(false)
+            setOnClickListener {
+                mainActivity.record.sns = sns.copy()
+                mainActivity.transitionHelper.replaceTransition(
+                    fragmentManager, TabFragment.createInstance(mainActivity)
+                )
+            }
+        }
     }
 
     private fun createLayout(buttonSize: Int): LinearLayout.LayoutParams {

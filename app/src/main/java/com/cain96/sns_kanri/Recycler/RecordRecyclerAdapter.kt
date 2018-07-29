@@ -1,6 +1,8 @@
 package com.cain96.sns_kanri.Recycler
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -25,15 +27,17 @@ class RecordRecyclerAdapter(
         mRecyclerView = null
     }
 
+    @SuppressLint("Range", "ResourceType")
     override fun onBindViewHolder(holder: RecordRecyclerViewHolder, position: Int) {
         holder.let {
             if (itemList.isNotEmpty()) {
                 val record: Record = itemList[position]
-                it.itemSns.text = record.sns
+                it.textSns.text = record.sns.name
                 it.itemDate.text = record.date.toString("yyyy/MM/dd")
                 it.itemTime.text = record.time.toString("HH : mm")
+                it.textSns.setBackgroundColor(Color.parseColor(record.sns.color))
             } else {
-                it.itemSns.text = context.getString(R.string.record_none)
+                it.textSns.text = context.getString(R.string.record_none)
             }
         }
     }

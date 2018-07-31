@@ -15,8 +15,8 @@ class StopWatchFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
 
     private val handler = Handler()
-    private var timeValue = 0
-    private var isMove = false
+    private var timeValue: Int = 0
+    private var isMove: Boolean = false
     private lateinit var runnable: Runnable
 
     companion object {
@@ -56,10 +56,8 @@ class StopWatchFragment : Fragment() {
             }
         }
 
-        start.setOnClickListener {
-            if (!isMove) handler.post(runnable)
-            isMove = true
-        }
+        if (!isMove) handler.post(runnable)
+        isMove = true
 
         stop.setOnClickListener {
             if (isMove) handler.removeCallbacks(runnable)
@@ -67,15 +65,6 @@ class StopWatchFragment : Fragment() {
             mainActivity.setTime(timeValue)
             mainActivity.transitionHelper
                 .replaceTransition(fragmentManager, TabFragment.createInstance(mainActivity))
-        }
-
-        reset.setOnClickListener {
-            if (isMove) handler.removeCallbacks(runnable)
-            isMove = false
-            timeValue = 0
-            timeToText()?.let {
-                timeText.text = it
-            }
         }
     }
 

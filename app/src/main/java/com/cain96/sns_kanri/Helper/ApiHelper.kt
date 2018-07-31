@@ -94,7 +94,7 @@ class ApiHelper {
 
     suspend fun requestRecords(): Records? {
         val (request, _, result) = async {
-            return@async "/record/".httpGet().responseObject(RecordsDeserializer())
+            return@async "/output/".httpGet().responseObject(RecordsDeserializer())
         }.await()
         when (result) {
             is Result.Success -> {

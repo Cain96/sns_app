@@ -42,14 +42,19 @@ class TabFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainActivity.tool_bar.visibility = View.INVISIBLE
-        val adapter = CustomFragmentPagerAdapter(fragmentManager as FragmentManager, mainActivity)
         view_pager.offscreenPageLimit = 3
-        view_pager.adapter = adapter
+        mainActivity.adapter = CustomFragmentPagerAdapter(
+            fragmentManager as FragmentManager,
+            mainActivity,
+            this,
+            R.id.tab_layout
+        )
+        view_pager.adapter = mainActivity.adapter
         tab_layout.setupWithViewPager(view_pager)
         setIcons()
     }
 
-    private fun setIcons() {
+    fun setIcons() {
         icons.forEachIndexed { i, icon_id ->
             tab_layout.getTabAt(i)?.setIcon(icon_id)
         }

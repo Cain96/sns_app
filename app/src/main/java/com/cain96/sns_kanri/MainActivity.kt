@@ -9,6 +9,7 @@ import com.cain96.sns_kanri.Data.Sns.Sns
 import com.cain96.sns_kanri.Fragment.TabFragment
 import com.cain96.sns_kanri.Helper.ApiHelper
 import com.cain96.sns_kanri.Helper.TransitionHelper
+import com.cain96.sns_kanri.Tab.CustomFragmentPagerAdapter
 import com.cain96.sns_kanri.Utils.toDate
 import kotlinx.android.synthetic.main.fragment_record.*
 import kotlinx.coroutines.experimental.runBlocking
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     var apiHelper = ApiHelper.createInstance()
     var record = InternalRecord()
     var snsList: List<Sns>? = null
+    var adapter: CustomFragmentPagerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

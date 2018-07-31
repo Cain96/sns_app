@@ -10,7 +10,7 @@ class RecordRecyclerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun onItemClick(view: View, position: Int)
     }
 
-    val itemSns: TextView = view.findViewById(R.id.item_sns)
+    val textSns: TextView = view.findViewById(R.id.text_sns)
     val itemDate: TextView = view.findViewById(R.id.item_date)
     val itemTime: TextView = view.findViewById(R.id.item_time)
 }

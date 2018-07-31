@@ -77,6 +77,9 @@ class RecordFragment : Fragment() {
             }
             if (issubmit) {
                 showSuccessToast(mainActivity, "Success")
+                mainActivity.adapter?.replace(1, RecordListFragment.createInstance(mainActivity))
+                mainActivity.adapter?.replace(2, ReportFragment.createInstance(mainActivity))
+                mainActivity.adapter?.notifyDataSetChanged()
             } else {
                 showErrorToast(mainActivity, "Error")
             }

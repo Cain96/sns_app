@@ -5,9 +5,7 @@
     <!-- StopWatchFragment -->
     <string name="stop_watch_menu">Stop Watch</string>
     <string name="timer_zero">0</string>
-    <string name="command_start">START</string>
     <string name="command_stop">STOP</string>
-    <string name="command_reset">RESET</string>
 
     <!-- SelectFragment -->
     <string name="select_menu">SNS選択</string>

@@ -60,6 +60,6 @@ class RecordRecyclerAdapter(
                 itemClickListener.onItemClick(view, it.getChildAdapterPosition(view))
             }
         }
-        return RecordRecyclerViewHolder(mView)
+        return RecordRecyclerViewHolder(mView, itemClickListener)
     }
 }

@@ -12,8 +12,10 @@ import com.cain96.sns_kanri.Data.Statistics.Time
 import com.cain96.sns_kanri.Utils.toString
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.core.FuelManager
+import com.github.kittinunf.fuel.httpDelete
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.fuel.httpPut
 import com.github.kittinunf.fuel.moshi.responseObject
 import com.github.kittinunf.result.Result
 import kotlinx.coroutines.experimental.async
@@ -119,6 +121,47 @@ class ApiHelper {
 
         val (request, _, result) = async {
             return@async "/record/".httpPost().body(body).responseJson()
+        }.await()
+
+        when (result) {
+            is Result.Success -> {
+                return true
+            }
+            is Result.Failure -> {
+                Log.d("Record", "fail")
+                Log.d("Record", request.cUrlString())
+                return false
+            }
+        }
+    }
+
+    suspend fun deleteRecord(id: Int): Boolean {
+        val (request, _, result) = async {
+            return@async "/record/$id/".httpDelete().responseJson()
+        }.await()
+
+        when (result) {
+            is Result.Success -> {
+                return true
+            }
+            is Result.Failure -> {
+                Log.d("Record", "fail")
+                Log.d("Record", request.cUrlString())
+                return false
+            }
+        }
+    }
+
+    suspend fun editRecord(record: InternalRecord): Boolean {
+        val df = SimpleDateFormat("yyyy-MM-dd")
+        val body: String = """{
+            "sns": ${record.sns.id},
+            "date": "${df.format(record.date)}",
+            "time": "${record.time()}"
+        }""".trimIndent()
+
+        val (request, _, result) = async {
+            return@async "/record/".httpPut().body(body).responseJson()
         }.await()
 
         when (result) {

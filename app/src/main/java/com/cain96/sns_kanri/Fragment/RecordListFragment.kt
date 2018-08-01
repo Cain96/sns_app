@@ -12,11 +12,14 @@ import com.cain96.sns_kanri.MainActivity
 import com.cain96.sns_kanri.R
 import com.cain96.sns_kanri.Recycler.RecordRecyclerAdapter
 import com.cain96.sns_kanri.Recycler.RecordRecyclerViewHolder
+import com.cain96.sns_kanri.Utils.showErrorToast
+import com.cain96.sns_kanri.Utils.showSuccessToast
 import kotlinx.coroutines.experimental.runBlocking
 
 class RecordListFragment : Fragment() {
 
     lateinit var mainActivity: MainActivity
+    var recordList: List<Record> = listOf()
 
     companion object {
         fun createInstance(mainActivity: MainActivity): RecordListFragment {
@@ -44,19 +47,32 @@ class RecordListFragment : Fragment() {
             val records = runBlocking {
                 mainActivity.apiHelper.requestRecords()
             }
-            val recordList: List<Record> = records?.results ?: listOf()
-
+            recordList = records?.results ?: listOf()
             recyclerView.adapter = RecordRecyclerAdapter(
                 mainActivity, itemClickListener, recordList)
         }
-
         return view
     }
 
     private val itemClickListener: RecordRecyclerViewHolder.ItemClickListener =
         object : RecordRecyclerViewHolder.ItemClickListener {
             override fun onItemClick(view: View, position: Int) {
-                // Toast.makeText(mainActivity, "position $position was tapped", Toast.LENGTH_SHORT).show()
+                when (view.id) {
+                    R.id.edit -> {
+                    }
+                    R.id.delete -> {
+                        val record = recordList[position]
+                        val isDelete = runBlocking { mainActivity.apiHelper.deleteRecord(record.id) }
+                        if (isDelete) {
+                            showSuccessToast(mainActivity, "Success")
+                            mainActivity.adapter?.replace(1, RecordListFragment.createInstance(mainActivity))
+                            mainActivity.adapter?.replace(2, ReportFragment.createInstance(mainActivity))
+                            mainActivity.adapter?.notifyDataSetChanged()
+                        } else {
+                            showErrorToast(mainActivity, "Error")
+                        }
+                    }
+                }
             }
         }
 }

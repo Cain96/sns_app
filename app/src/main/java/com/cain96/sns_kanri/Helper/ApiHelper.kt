@@ -161,7 +161,7 @@ class ApiHelper {
         }""".trimIndent()
 
         val (request, _, result) = async {
-            return@async "/record/".httpPut().body(body).responseJson()
+            return@async "/record/${record.id}/".httpPut().body(body).responseJson()
         }.await()
 
         when (result) {

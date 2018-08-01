@@ -78,3 +78,15 @@ class DateAdapter {
         return json.toDate()
     }
 }
+
+fun Date.getHour(): Int {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+    return calendar.get(Calendar.HOUR_OF_DAY)
+}
+
+fun Date.getMinute(): Int {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+    return calendar.get(Calendar.MINUTE)
+}

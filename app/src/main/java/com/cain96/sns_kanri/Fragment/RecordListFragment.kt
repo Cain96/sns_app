@@ -57,11 +57,12 @@ class RecordListFragment : Fragment() {
     private val itemClickListener: RecordRecyclerViewHolder.ItemClickListener =
         object : RecordRecyclerViewHolder.ItemClickListener {
             override fun onItemClick(view: View, position: Int) {
+                val record = recordList[position]
                 when (view.id) {
                     R.id.edit -> {
+                        mainActivity.transitionHelper.replaceTransition(fragmentManager, EditFragment.createInstance(mainActivity, record))
                     }
                     R.id.delete -> {
-                        val record = recordList[position]
                         val isDelete = runBlocking { mainActivity.apiHelper.deleteRecord(record.id) }
                         if (isDelete) {
                             showSuccessToast(mainActivity, "Success")

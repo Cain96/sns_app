@@ -30,4 +30,7 @@
     <string name="month">今月</string>
     <string name="hour">時間</string>
 
+    <!-- EditFragment -->
+    <string name="edit_menu">編集画面</string>
+
 </resources>

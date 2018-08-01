@@ -5,25 +5,32 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.cain96.sns_kanri.Data.InternalRecord
+import com.cain96.sns_kanri.Data.Record.Record
 import com.cain96.sns_kanri.Dialog.DatePick
 import com.cain96.sns_kanri.Dialog.TimeSetDialog
 import com.cain96.sns_kanri.MainActivity
 import com.cain96.sns_kanri.R
+import com.cain96.sns_kanri.Utils.getHour
+import com.cain96.sns_kanri.Utils.getMinute
 import com.cain96.sns_kanri.Utils.showErrorToast
 import com.cain96.sns_kanri.Utils.showSuccessToast
 import com.cain96.sns_kanri.Utils.toString
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_record.*
 import kotlinx.coroutines.experimental.runBlocking
 
-class RecordFragment : Fragment() {
+class EditFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
+    private var record: Record? = null
 
     companion object {
-        fun createInstance(mainActivity: MainActivity): RecordFragment {
-            val recordFragment = RecordFragment()
+        fun createInstance(mainActivity: MainActivity, record: Record? = null): EditFragment {
+            val recordFragment = EditFragment()
             val args = Bundle()
             recordFragment.arguments = args
             recordFragment.mainActivity = mainActivity
+            recordFragment.record = record
             return recordFragment
         }
     }
@@ -34,11 +41,21 @@ class RecordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.fragment_record, container, false)
+        return inflater.inflate(R.layout.fragment_edit, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+        record?.let {
+            mainActivity.record = InternalRecord(
+                it.id,
+                it.date,
+                it.time.getHour(),
+                it.time.getMinute(),
+                it.sns
+            )
+        }
         btn_sns.text = mainActivity.record.sns.name
         mainActivity.record.date.toString("yyyy/MM/dd")?.let {
             btn_date.text = it
@@ -48,7 +65,7 @@ class RecordFragment : Fragment() {
         }
         btn_sns.setOnClickListener {
             mainActivity.transitionHelper
-                .replaceTransition(fragmentManager, SelectFragment.createInstance(mainActivity, true))
+                .replaceTransition(fragmentManager, SelectFragment.createInstance(mainActivity, false))
         }
         btn_date.setOnClickListener {
             DatePick().show(fragmentManager, "datePicker")
@@ -68,15 +85,24 @@ class RecordFragment : Fragment() {
         }
         btn_submit.setOnClickListener {
             val isSubmit = runBlocking {
-                return@runBlocking mainActivity.apiHelper.createRecord(mainActivity.record)
+                return@runBlocking mainActivity.apiHelper.editRecord(mainActivity.record)
             }
             if (isSubmit) {
                 showSuccessToast(mainActivity, "Success")
-                mainActivity.adapter?.replace(1, RecordListFragment.createInstance(mainActivity))
-                mainActivity.adapter?.replace(2, ReportFragment.createInstance(mainActivity))
-                mainActivity.adapter?.notifyDataSetChanged()
+                mainActivity.transitionHelper.replaceTransition(fragmentManager, TabFragment.createInstance(mainActivity))
             } else {
                 showErrorToast(mainActivity, "Error")
+            }
+        }
+    }
+
+    override fun setHasOptionsMenu(hasMenu: Boolean) {
+        super.setHasOptionsMenu(hasMenu)
+        activity?.tool_bar?.apply {
+            title = getString(R.string.edit_menu)
+            setNavigationIcon(R.mipmap.baseline_clear_white_24)
+            setNavigationOnClickListener {
+                mainActivity.transitionHelper.replaceTransition(fragmentManager, TabFragment.createInstance(mainActivity))
             }
         }
     }

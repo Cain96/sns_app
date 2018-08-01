@@ -64,8 +64,10 @@ class EditFragment : Fragment() {
             btn_time.text = it
         }
         btn_sns.setOnClickListener {
-            mainActivity.transitionHelper
-                .replaceTransition(fragmentManager, SelectFragment.createInstance(mainActivity, false))
+            mainActivity.transitionHelper.replaceTransition(
+                fragmentManager,
+                SelectFragment.createInstance(mainActivity, false)
+            )
         }
         btn_date.setOnClickListener {
             DatePick().show(fragmentManager, "datePicker")
@@ -89,7 +91,10 @@ class EditFragment : Fragment() {
             }
             if (isSubmit) {
                 showSuccessToast(mainActivity, "Success")
-                mainActivity.transitionHelper.replaceTransition(fragmentManager, TabFragment.createInstance(mainActivity))
+                mainActivity.transitionHelper.replaceTransition(
+                    fragmentManager,
+                    TabFragment.createInstance(mainActivity)
+                )
             } else {
                 showErrorToast(mainActivity, "Error")
             }
@@ -102,7 +107,10 @@ class EditFragment : Fragment() {
             title = getString(R.string.edit_menu)
             setNavigationIcon(R.mipmap.baseline_clear_white_24)
             setNavigationOnClickListener {
-                mainActivity.transitionHelper.replaceTransition(fragmentManager, TabFragment.createInstance(mainActivity))
+                mainActivity.transitionHelper.replaceTransition(
+                    fragmentManager,
+                    TabFragment.createInstance(mainActivity)
+                )
             }
         }
     }

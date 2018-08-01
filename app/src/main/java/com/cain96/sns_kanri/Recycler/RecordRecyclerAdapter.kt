@@ -39,7 +39,6 @@ class RecordRecyclerAdapter(
                 val drawable = GradientDrawable().apply {
                     shape = GradientDrawable.OVAL
                     setColor(Color.parseColor(record.sns.color))
-
                 }
                 it.textSns.background = drawable
             } else {

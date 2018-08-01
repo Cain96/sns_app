@@ -60,14 +60,25 @@ class RecordListFragment : Fragment() {
                 val record = recordList[position]
                 when (view.id) {
                     R.id.edit -> {
-                        mainActivity.transitionHelper.replaceTransition(fragmentManager, EditFragment.createInstance(mainActivity, record))
+                        mainActivity.transitionHelper.replaceTransition(
+                            fragmentManager,
+                            EditFragment.createInstance(mainActivity, record)
+                        )
                     }
                     R.id.delete -> {
-                        val isDelete = runBlocking { mainActivity.apiHelper.deleteRecord(record.id) }
+                        val isDelete = runBlocking {
+                            mainActivity.apiHelper.deleteRecord(record.id)
+                        }
                         if (isDelete) {
                             showSuccessToast(mainActivity, "Success")
-                            mainActivity.adapter?.replace(1, RecordListFragment.createInstance(mainActivity))
-                            mainActivity.adapter?.replace(2, ReportFragment.createInstance(mainActivity))
+                            mainActivity.adapter?.replace(
+                                1,
+                                RecordListFragment.createInstance(mainActivity)
+                            )
+                            mainActivity.adapter?.replace(
+                                2,
+                                ReportFragment.createInstance(mainActivity)
+                            )
                             mainActivity.adapter?.notifyDataSetChanged()
                         } else {
                             showErrorToast(mainActivity, "Error")

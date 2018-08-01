@@ -47,8 +47,10 @@ class RecordFragment : Fragment() {
             btn_time.text = it
         }
         btn_sns.setOnClickListener {
-            mainActivity.transitionHelper
-                .replaceTransition(fragmentManager, SelectFragment.createInstance(mainActivity, true))
+            mainActivity.transitionHelper.replaceTransition(
+                    fragmentManager,
+                    SelectFragment.createInstance(mainActivity, true)
+                )
         }
         btn_date.setOnClickListener {
             DatePick().show(fragmentManager, "datePicker")

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -20,12 +21,14 @@ import kotlinx.android.synthetic.main.fragment_select.*
 
 class SelectFragment : Fragment() {
     lateinit var mainActivity: MainActivity
+    var isCreate: Boolean = false
 
     companion object {
-        fun createInstance(mainActivity: MainActivity): SelectFragment {
+        fun createInstance(mainActivity: MainActivity, isCreate: Boolean): SelectFragment {
             val selectFragment = SelectFragment()
             val args = Bundle()
             selectFragment.mainActivity = mainActivity
+            selectFragment.isCreate = isCreate
             selectFragment.arguments = args
             return selectFragment
         }
@@ -50,7 +53,7 @@ class SelectFragment : Fragment() {
         val lastIndex = snsList?.let {
             return@let it.lastIndex
         }
-        snsList?.reversed()?.forEachIndexed { i, sns ->
+        snsList?.forEachIndexed { i, sns ->
             if (i % 3 == 0) horizontal = createHorizontalLayout(oneThird)
             val layoutParams = createLayout(oneThird)
             val button = createButton(sns, oneThird)
@@ -65,8 +68,7 @@ class SelectFragment : Fragment() {
             title = getString(R.string.select_menu)
             setNavigationIcon(R.mipmap.baseline_clear_white_24)
             setNavigationOnClickListener {
-                mainActivity.transitionHelper
-                    .replaceTransition(fragmentManager, TabFragment.createInstance(mainActivity))
+                fragmentManager?.popBackStack()
             }
         }
     }
@@ -90,13 +92,19 @@ class SelectFragment : Fragment() {
             setBackgroundColor(Color.parseColor(sns.color))
             gravity = Gravity.CENTER
             textSize = 23f
-            setTextColor(resources.getColor(R.color.white))
+            setTextColor(ContextCompat.getColor(context, R.color.white))
             setAllCaps(false)
             setOnClickListener {
                 mainActivity.record.sns = sns.copy()
-                mainActivity.transitionHelper.replaceTransition(
-                    fragmentManager, TabFragment.createInstance(mainActivity)
-                )
+                if (isCreate) {
+                    mainActivity.transitionHelper.replaceTransition(
+                        fragmentManager, TabFragment.createInstance(mainActivity)
+                    )
+                } else {
+                    mainActivity.transitionHelper.replaceTransition(
+                        fragmentManager, EditFragment.createInstance(mainActivity)
+                    )
+                }
             }
         }
     }

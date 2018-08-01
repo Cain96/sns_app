@@ -30,4 +30,13 @@
     <string name="month">今月</string>
     <string name="hour">時間</string>
 
+    <!-- EditFragment -->
+    <string name="edit_menu">編集画面</string>
+
+    <!-- DeleteDialogFragment -->
+    <string name="delete_title">削除確認</string>
+    <string name="delete_message">この記録を削除しますか？</string>
+    <string name="delete_ok">はい</string>
+    <string name="delete_cancel">いいえ</string>
+
 </resources>

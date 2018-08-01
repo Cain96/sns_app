@@ -3,6 +3,7 @@ package com.cain96.sns_kanri.Recycler
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -35,7 +36,11 @@ class RecordRecyclerAdapter(
                 it.textSns.text = record.sns.name
                 it.itemDate.text = record.date.toString("yyyy/MM/dd")
                 it.itemTime.text = record.time.toString("HH : mm")
-                it.textSns.setBackgroundColor(Color.parseColor(record.sns.color))
+                val drawable = GradientDrawable().apply {
+                    shape = GradientDrawable.OVAL
+                    setColor(Color.parseColor(record.sns.color))
+                }
+                it.textSns.background = drawable
             } else {
                 it.textSns.text = context.getString(R.string.record_none)
             }
@@ -54,6 +59,6 @@ class RecordRecyclerAdapter(
                 itemClickListener.onItemClick(view, it.getChildAdapterPosition(view))
             }
         }
-        return RecordRecyclerViewHolder(mView)
+        return RecordRecyclerViewHolder(mView, itemClickListener)
     }
 }

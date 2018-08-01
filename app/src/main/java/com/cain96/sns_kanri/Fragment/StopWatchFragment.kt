@@ -75,8 +75,7 @@ class StopWatchFragment : Fragment() {
             it.tool_bar.setNavigationIcon(R.mipmap.baseline_clear_white_24)
             it.tool_bar.setNavigationOnClickListener {
                 handler.removeCallbacks(runnable)
-                mainActivity.transitionHelper
-                    .replaceTransition(fragmentManager, TabFragment.createInstance(mainActivity))
+                fragmentManager?.popBackStack()
             }
         }
     }

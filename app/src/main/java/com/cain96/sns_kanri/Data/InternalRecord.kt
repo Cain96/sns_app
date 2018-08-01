@@ -5,6 +5,7 @@ import java.io.Serializable
 import java.util.Date
 
 class InternalRecord(
+    var id: Int = 0,
     var date: Date = Date(),
     var hour: Int = 0,
     var minutes: Int = 0,

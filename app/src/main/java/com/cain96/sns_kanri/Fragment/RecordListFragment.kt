@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.cain96.sns_kanri.Data.Record.Record
+import com.cain96.sns_kanri.Dialog.DeleteDialog
 import com.cain96.sns_kanri.MainActivity
 import com.cain96.sns_kanri.R
 import com.cain96.sns_kanri.Recycler.RecordRecyclerAdapter
@@ -17,6 +18,7 @@ import kotlinx.coroutines.experimental.runBlocking
 class RecordListFragment : Fragment() {
 
     lateinit var mainActivity: MainActivity
+    var recordList: List<Record> = listOf()
 
     companion object {
         fun createInstance(mainActivity: MainActivity): RecordListFragment {
@@ -44,19 +46,29 @@ class RecordListFragment : Fragment() {
             val records = runBlocking {
                 mainActivity.apiHelper.requestRecords()
             }
-            val recordList: List<Record> = records?.results ?: listOf()
-
+            recordList = records?.results ?: listOf()
             recyclerView.adapter = RecordRecyclerAdapter(
                 mainActivity, itemClickListener, recordList)
         }
-
         return view
     }
 
     private val itemClickListener: RecordRecyclerViewHolder.ItemClickListener =
         object : RecordRecyclerViewHolder.ItemClickListener {
             override fun onItemClick(view: View, position: Int) {
-                // Toast.makeText(mainActivity, "position $position was tapped", Toast.LENGTH_SHORT).show()
+                val record = recordList[position]
+                when (view.id) {
+                    R.id.edit -> {
+                        mainActivity.transitionHelper.replaceTransition(
+                            fragmentManager,
+                            EditFragment.createInstance(mainActivity, record)
+                        )
+                    }
+                    R.id.delete -> {
+                        val dialog = DeleteDialog.createInstance(mainActivity, record.id)
+                        dialog.show(fragmentManager, "delete")
+                    }
+                }
             }
         }
 }

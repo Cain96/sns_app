@@ -8,12 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.cain96.sns_kanri.Data.Record.Record
+import com.cain96.sns_kanri.Dialog.DeleteDialog
 import com.cain96.sns_kanri.MainActivity
 import com.cain96.sns_kanri.R
 import com.cain96.sns_kanri.Recycler.RecordRecyclerAdapter
 import com.cain96.sns_kanri.Recycler.RecordRecyclerViewHolder
-import com.cain96.sns_kanri.Utils.showErrorToast
-import com.cain96.sns_kanri.Utils.showSuccessToast
 import kotlinx.coroutines.experimental.runBlocking
 
 class RecordListFragment : Fragment() {
@@ -66,23 +65,8 @@ class RecordListFragment : Fragment() {
                         )
                     }
                     R.id.delete -> {
-                        val isDelete = runBlocking {
-                            mainActivity.apiHelper.deleteRecord(record.id)
-                        }
-                        if (isDelete) {
-                            showSuccessToast(mainActivity, "Success")
-                            mainActivity.adapter?.replace(
-                                1,
-                                RecordListFragment.createInstance(mainActivity)
-                            )
-                            mainActivity.adapter?.replace(
-                                2,
-                                ReportFragment.createInstance(mainActivity)
-                            )
-                            mainActivity.adapter?.notifyDataSetChanged()
-                        } else {
-                            showErrorToast(mainActivity, "Error")
-                        }
+                        val dialog = DeleteDialog.createInstance(mainActivity, record.id)
+                        dialog.show(fragmentManager, "delete")
                     }
                 }
             }

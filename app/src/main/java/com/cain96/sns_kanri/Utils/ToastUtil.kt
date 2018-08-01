@@ -7,7 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.cain96.sns_kanri.R
 
-fun showSuccessToast(context: Context, message: String, time: Int = Toast.LENGTH_SHORT) {
+fun showSuccessToast(context: Context, message: String, time: Int = Toast.LENGTH_LONG) {
     val inflate = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     val view = inflate.inflate(R.layout.success_toast, null)
 
@@ -22,7 +22,7 @@ fun showSuccessToast(context: Context, message: String, time: Int = Toast.LENGTH
     }
 }
 
-fun showErrorToast(context: Context, message: String, time: Int = Toast.LENGTH_SHORT) {
+fun showErrorToast(context: Context, message: String, time: Int = Toast.LENGTH_LONG) {
     val inflate = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     val view = inflate.inflate(R.layout.fail_toast, null)
 

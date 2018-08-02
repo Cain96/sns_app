@@ -9,7 +9,7 @@ class InternalRecord(
     var date: Date = Date(),
     var hour: Int = 0,
     var minutes: Int = 0,
-    var sns: Sns = Sns(id = 1)
+    var sns: Sns? = Sns(id = 1)
 ) : Serializable {
     fun timeToText(): String? {
         return if (hour < 0 || minutes < 0) {

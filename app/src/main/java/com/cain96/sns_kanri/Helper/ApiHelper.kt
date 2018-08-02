@@ -114,7 +114,7 @@ class ApiHelper {
     suspend fun createRecord(record: InternalRecord): Boolean {
         val df = SimpleDateFormat("yyyy-MM-dd")
         val body: String = """{
-            "sns": ${record.sns.id},
+            "sns": ${record.sns?.id},
             "date": "${df.format(record.date)}",
             "time": "${record.time()}"
         }""".trimIndent()
@@ -155,7 +155,7 @@ class ApiHelper {
     suspend fun editRecord(record: InternalRecord): Boolean {
         val df = SimpleDateFormat("yyyy-MM-dd")
         val body: String = """{
-            "sns": ${record.sns.id},
+            "sns": ${record.sns?.id},
             "date": "${df.format(record.date)}",
             "time": "${record.time()}"
         }""".trimIndent()

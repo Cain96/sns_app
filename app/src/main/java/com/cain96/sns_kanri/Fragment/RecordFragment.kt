@@ -53,7 +53,7 @@ class RecordFragment : Fragment() {
                 )
         }
         btn_date.setOnClickListener {
-            DatePick().show(fragmentManager, "datePicker")
+            DatePick.createInstance(mainActivity.record.date).show(fragmentManager, "datePicker")
         }
         btn_time.setOnClickListener {
             val timeSetFragment = TimeSetDialog.createInstance(mainActivity.record)

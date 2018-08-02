@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        "%d/%d/%d 00:00:00".format(year, month, dayOfMonth).toDate()?.let {
+        "%d/%d/%d 00:00:00".format(year, month + 1, dayOfMonth).toDate()?.let {
             record.date = it
         }
-        btn_date.text = "%d/%d/%d".format(year, month, dayOfMonth)
+        btn_date.text = "%1$02d/%2$02d/%3$02d".format(year, month + 1, dayOfMonth)
     }
 }

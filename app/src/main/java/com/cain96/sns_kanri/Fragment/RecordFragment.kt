@@ -39,7 +39,7 @@ class RecordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btn_sns.text = mainActivity.record.sns.name
+        btn_sns.text = mainActivity.record.sns?.name
         mainActivity.record.date.toString("yyyy/MM/dd")?.let {
             btn_date.text = it
         }
@@ -48,9 +48,9 @@ class RecordFragment : Fragment() {
         }
         btn_sns.setOnClickListener {
             mainActivity.transitionHelper.replaceTransition(
-                    fragmentManager,
-                    SelectFragment.createInstance(mainActivity, true)
-                )
+                fragmentManager,
+                SelectFragment.createInstance(mainActivity, true)
+            )
         }
         btn_date.setOnClickListener {
             DatePick.createInstance(mainActivity.record.date).show(fragmentManager, "datePicker")
@@ -67,6 +67,12 @@ class RecordFragment : Fragment() {
             }
             timeSetFragment.show(fragmentManager, "timeSet")
             timeSetFragment.isCancelable = true
+        }
+        timer.setOnClickListener {
+            mainActivity.transitionHelper.replaceTransition(
+                fragmentManager,
+                StopWatchFragment.createInstance(mainActivity)
+            )
         }
         btn_submit.setOnClickListener {
             val isSubmit = runBlocking {

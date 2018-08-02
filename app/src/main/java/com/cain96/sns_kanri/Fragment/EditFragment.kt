@@ -56,7 +56,7 @@ class EditFragment : Fragment() {
                 it.sns
             )
         }
-        btn_sns.text = mainActivity.record.sns.name
+        btn_sns.text = mainActivity.record.sns?.name
         mainActivity.record.date.toString("yyyy/MM/dd")?.let {
             btn_date.text = it
         }
@@ -91,6 +91,7 @@ class EditFragment : Fragment() {
             }
             if (isSubmit) {
                 showSuccessToast(mainActivity, "Success")
+                mainActivity.record = InternalRecord(sns = mainActivity.snsList?.first())
                 mainActivity.transitionHelper.replaceTransition(
                     fragmentManager,
                     TabFragment.createInstance(mainActivity)
@@ -107,6 +108,7 @@ class EditFragment : Fragment() {
             title = getString(R.string.edit_menu)
             setNavigationIcon(R.mipmap.baseline_clear_white_24)
             setNavigationOnClickListener {
+                mainActivity.record = InternalRecord(sns = mainActivity.snsList?.first())
                 mainActivity.transitionHelper.replaceTransition(
                     fragmentManager,
                     TabFragment.createInstance(mainActivity)

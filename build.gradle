@@ -8,6 +8,7 @@ buildscript {
         coroutines_version = '0.23.4'
         moshi_version = '1.6.0'
         mp_android_chart_version = '3.0.3'
+        color_picker_version = '0.0.13'
     }
     repositories {
         google()

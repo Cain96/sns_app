@@ -9,6 +9,8 @@
 
     <!-- SelectFragment -->
     <string name="select_menu">SNS選択</string>
+    <string name="fab_create">SNS作成</string>
+    <string name="fab_delete">SNS削除</string>
 
     <!-- TimeSetDialog -->
     <string name="time_set_title">使用時間</string>
@@ -38,5 +40,11 @@
     <string name="delete_message">この記録を削除しますか？</string>
     <string name="delete_ok">はい</string>
     <string name="delete_cancel">いいえ</string>
+
+    <!-- SnsFragment -->
+    <string name="sns_menu">SNS新規作成</string>
+    <string name="sns_create">作成</string>
+    <string name="sns_name">SNS名称</string>
+    <string name="sns_color">カラー選択</string>
 
 </resources>

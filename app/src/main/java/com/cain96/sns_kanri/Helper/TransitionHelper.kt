@@ -13,4 +13,15 @@ class TransitionHelper {
             transition.commit()
         }
     }
+
+    fun replaceNoBackStackTransition(
+        fragmentManager: FragmentManager?,
+        fragmentInstance: Fragment
+    ) {
+        fragmentManager?.let {
+            val transition = it.beginTransaction()
+            transition.replace(R.id.mainContainer, fragmentInstance)
+            transition.commit()
+        }
+    }
 }

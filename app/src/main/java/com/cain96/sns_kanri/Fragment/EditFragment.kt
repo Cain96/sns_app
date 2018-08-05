@@ -94,7 +94,7 @@ class EditFragment : Fragment() {
                 mainActivity.record = InternalRecord(sns = mainActivity.snsList?.first())
                 mainActivity.transitionHelper.replaceTransition(
                     fragmentManager,
-                    TabFragment.createInstance(mainActivity)
+                    TabFragment.createInstance(mainActivity, 1)
                 )
             } else {
                 showErrorToast(mainActivity, "Error")
@@ -111,7 +111,7 @@ class EditFragment : Fragment() {
                 mainActivity.record = InternalRecord(sns = mainActivity.snsList?.first())
                 mainActivity.transitionHelper.replaceTransition(
                     fragmentManager,
-                    TabFragment.createInstance(mainActivity)
+                    TabFragment.createInstance(mainActivity, 1)
                 )
             }
         }

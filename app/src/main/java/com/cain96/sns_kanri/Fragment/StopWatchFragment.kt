@@ -1,8 +1,11 @@
 package com.cain96.sns_kanri.Fragment
 
+import android.app.Notification
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.app.NotificationCompat
+import android.support.v4.app.NotificationManagerCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,6 +56,20 @@ class StopWatchFragment : Fragment() {
                     timeText.text = it
                 }
                 handler.postDelayed(this, 1000)
+                if (timeValue % 3600 == 0 || timeValue != 0) {
+                    val builder = NotificationCompat.Builder(mainActivity, "TimeID").apply {
+                        setSmallIcon(R.drawable.baseline_timer_24)
+                        setContentTitle(getString(R.string.notification_title))
+                        setContentText(
+                            "%s時間使用しました。連続使用は控えましょう。".format((timeValue / 3600).toString())
+                        )
+                        setAutoCancel(true)
+                        setDefaults(Notification.DEFAULT_ALL)
+                    }
+
+                    val notificationManager = NotificationManagerCompat.from(mainActivity)
+                    notificationManager.notify(0, builder.build())
+                }
             }
         }
 
@@ -75,7 +92,8 @@ class StopWatchFragment : Fragment() {
             it.tool_bar.setNavigationIcon(R.mipmap.baseline_clear_white_24)
             it.tool_bar.setNavigationOnClickListener {
                 handler.removeCallbacks(runnable)
-                fragmentManager?.popBackStack()
+                mainActivity.transitionHelper
+                    .replaceTransition(fragmentManager, TabFragment.createInstance(mainActivity))
             }
         }
     }

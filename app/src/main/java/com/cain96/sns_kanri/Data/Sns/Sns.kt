@@ -5,5 +5,6 @@ import java.io.Serializable
 data class Sns(
     var id: Int = 0,
     var name: String = "",
-    var color: String? = ""
+    var color: String? = "",
+    var enabled: Boolean = true
 ) : Serializable

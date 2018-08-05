@@ -1,10 +1,12 @@
 package com.cain96.sns_kanri.Fragment
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -17,9 +19,12 @@ import com.cain96.sns_kanri.Data.Sns.Sns
 import com.cain96.sns_kanri.MainActivity
 import com.cain96.sns_kanri.R
 import com.cain96.sns_kanri.Utils.getDisplaySize
+import com.cain96.sns_kanri.Utils.showErrorToast
+import com.cain96.sns_kanri.Utils.showSuccessToast
 import com.cain96.sns_kanri.Utils.toPx
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_select.*
+import kotlinx.coroutines.experimental.runBlocking
 
 class SelectFragment : Fragment() {
     lateinit var mainActivity: MainActivity
@@ -81,6 +86,40 @@ class SelectFragment : Fragment() {
                 SnsFragment.createInstance(mainActivity, isCreate)
             )
         }
+        fab2.setOnClickListener {
+            val items: Array<String>? = snsList?.map { sns: Sns -> sns.name }?.toTypedArray()
+            val defaultItem = 0
+            var checkedItem = 0
+            val builder = AlertDialog.Builder(mainActivity).apply {
+                setTitle(R.string.sns_delete)
+                setSingleChoiceItems(items, defaultItem, DialogInterface.OnClickListener { _, which ->
+                    checkedItem = which
+                })
+                setPositiveButton("OK", DialogInterface.OnClickListener { _, _ ->
+                    if (checkedItem >= 0 && snsList != null) {
+                        val sns: Sns = snsList[checkedItem]
+                        sns.enabled = false
+                        val isSubmit = runBlocking {
+                            return@runBlocking mainActivity.apiHelper.editSns(sns)
+                        }
+                        if (isSubmit) {
+                            showSuccessToast(mainActivity, "Success")
+                            mainActivity.snsList = runBlocking {
+                                return@runBlocking mainActivity.apiHelper.requestSns()
+                            }
+                            mainActivity.transitionHelper.replaceNoBackStackTransition(
+                                fragmentManager,
+                                SelectFragment.createInstance(mainActivity, isCreate)
+                            )
+                        } else {
+                            showErrorToast(mainActivity, "Error")
+                        }
+                    }
+                })
+                setNegativeButton("キャンセル", null)
+            }
+            builder.show()
+        }
     }
 
     override fun setHasOptionsMenu(hasMenu: Boolean) {
@@ -89,7 +128,15 @@ class SelectFragment : Fragment() {
             title = getString(R.string.select_menu)
             setNavigationIcon(R.mipmap.baseline_clear_white_24)
             setNavigationOnClickListener {
-                fragmentManager?.popBackStack()
+                if (isCreate) {
+                    mainActivity.transitionHelper.replaceTransition(
+                        fragmentManager, TabFragment.createInstance(mainActivity)
+                    )
+                } else {
+                    mainActivity.transitionHelper.replaceTransition(
+                        fragmentManager, EditFragment.createInstance(mainActivity)
+                    )
+                }
             }
         }
     }

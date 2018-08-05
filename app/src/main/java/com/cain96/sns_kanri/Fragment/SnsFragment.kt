@@ -53,6 +53,9 @@ class SnsFragment : Fragment() {
             }
             if (isSubmit) {
                 showSuccessToast(mainActivity, "Success")
+                mainActivity.snsList = runBlocking {
+                    return@runBlocking mainActivity.apiHelper.requestSns()
+                }
                 mainActivity.transitionHelper.replaceNoBackStackTransition(
                     fragmentManager,
                     SelectFragment.createInstance(mainActivity, isCreate)

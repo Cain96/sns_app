@@ -97,11 +97,35 @@ class ApiHelper {
     suspend fun createSns(sns: Sns): Boolean {
         val body: String = """{
             "name": "${sns.name}",
-            "color": "${sns.color}"
+            "color": "${sns.color}",
+            "enabled": "${sns.enabled}"
         }""".trimIndent()
 
         val (request, _, result) = async {
             return@async "/sns/".httpPost().body(body).responseJson()
+        }.await()
+
+        when (result) {
+            is Result.Success -> {
+                return true
+            }
+            is Result.Failure -> {
+                Log.d("Sns", "fail")
+                Log.d("Sns", request.cUrlString())
+                return false
+            }
+        }
+    }
+
+    suspend fun editSns(sns: Sns): Boolean {
+        val body: String = """{
+            "name": "${sns.name}",
+            "color": "${sns.color}",
+            "enabled": ${sns.enabled}
+        }""".trimIndent()
+
+        val (request, _, result) = async {
+            return@async "/sns/${sns.id}/".httpPut().body(body).responseJson()
         }.await()
 
         when (result) {

@@ -12,6 +12,8 @@
     <string name="fab_create">SNS作成</string>
     <string name="fab_delete">SNS削除</string>
 
+    <string name="sns_delete">削除する項目を選択してください</string>
+
     <!-- TimeSetDialog -->
     <string name="time_set_title">使用時間</string>
     <string name="time_set_hour">時間</string>

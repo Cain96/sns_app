@@ -92,9 +92,11 @@ class SelectFragment : Fragment() {
             var checkedItem = 0
             val builder = AlertDialog.Builder(mainActivity).apply {
                 setTitle(R.string.sns_delete)
-                setSingleChoiceItems(items, defaultItem, DialogInterface.OnClickListener { _, which ->
-                    checkedItem = which
-                })
+                setSingleChoiceItems(items, defaultItem,
+                    DialogInterface.OnClickListener { _, which ->
+                        checkedItem = which
+                    }
+                )
                 setPositiveButton("OK", DialogInterface.OnClickListener { _, _ ->
                     if (checkedItem >= 0 && snsList != null) {
                         val sns: Sns = snsList[checkedItem]

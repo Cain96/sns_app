@@ -16,4 +16,8 @@
 
     <color name="success">#67C23A</color>
     <color name="danger">#F56C6C</color>
+
+    <color name="fab">#FF9800</color>
+    <color name="fab_create">#2196F3</color>
+    <color name="fab_delete">#E040FB</color>
 </resources>

@@ -3,7 +3,8 @@ package com.cain96.sns_kanri.Data.Sns
 import java.io.Serializable
 
 data class Sns(
-    var id: Int,
+    var id: Int = 0,
     var name: String = "",
-    var color: String? = ""
+    var color: String? = "",
+    var enabled: Boolean = true
 ) : Serializable

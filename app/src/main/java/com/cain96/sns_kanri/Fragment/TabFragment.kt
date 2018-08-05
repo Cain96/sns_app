@@ -19,12 +19,14 @@ class TabFragment : Fragment() {
         R.drawable.baseline_list_alt_24,
         R.drawable.baseline_pie_chart_24
     )
+    private var initPosition: Int = 0
 
     companion object {
-        fun createInstance(mainActivity: MainActivity): TabFragment {
+        fun createInstance(mainActivity: MainActivity, position: Int = 0): TabFragment {
             val tabFragment = TabFragment()
             val args = Bundle()
             tabFragment.mainActivity = mainActivity
+            tabFragment.initPosition = position
             tabFragment.arguments = args
             return tabFragment
         }
@@ -51,6 +53,7 @@ class TabFragment : Fragment() {
         )
         view_pager.adapter = mainActivity.adapter
         tab_layout.setupWithViewPager(view_pager)
+        tab_layout.getTabAt(initPosition)?.select()
         setIcons()
     }
 

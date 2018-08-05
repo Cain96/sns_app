@@ -44,6 +44,7 @@ dependencies {
     implementation "com.squareup.moshi:moshi:$moshi_version"
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     implementation "com.github.PhilJay:MPAndroidChart:v$mp_android_chart_version"
+    implementation "com.github.QuadFlask:colorpicker:$color_picker_version"
 }
 
 ktlint {

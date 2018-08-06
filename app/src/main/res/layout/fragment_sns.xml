@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/sns_name"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/name_sns"
@@ -58,7 +58,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/sns_color"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
 
         <com.flask.colorpicker.ColorPickerView
             android:id="@+id/color_picker"

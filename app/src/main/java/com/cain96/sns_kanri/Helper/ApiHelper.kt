@@ -77,6 +77,27 @@ class ApiHelper {
         return null
     }
 
+    suspend fun requestAllSns(): List<Sns>? {
+        val (request, _, result) = async {
+            return@async "/sns/".httpGet(
+                listOf(
+                    "all" to "true"
+                )
+            ).responseObject(SnsListDeserializer())
+        }.await()
+        when (result) {
+            is Result.Success -> {
+                val (sns_list, _) = result
+                return sns_list
+            }
+            is Result.Failure -> {
+                Log.d("SNS", "fail")
+                Log.d("SNS", request.cUrlString())
+            }
+        }
+        return null
+    }
+
     suspend fun getSns(id: Int): Sns? {
         val (request, _, result) = async {
             return@async "/sns/%s".format(id).httpGet().responseObject<Sns>()

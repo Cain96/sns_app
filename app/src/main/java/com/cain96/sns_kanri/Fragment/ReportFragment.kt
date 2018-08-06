@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.cain96.sns_kanri.Data.Sns.Sns
 import com.cain96.sns_kanri.Data.Statistics.Rate
 import com.cain96.sns_kanri.Data.Statistics.Statistic
 import com.cain96.sns_kanri.MainActivity
@@ -187,8 +188,11 @@ class ReportFragment : Fragment() {
 
     @SuppressLint("Range")
     private fun getBarColors(): ArrayList<Int> {
+        val snsList: List<Sns>? = runBlocking {
+            mainActivity.apiHelper.requestAllSns()
+        }
         var colors = ArrayList<Int>()
-        mainActivity.snsList?.forEach {
+        snsList?.forEach {
             colors.add(Color.parseColor(it.color))
         }
         return colors

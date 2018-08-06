@@ -56,7 +56,7 @@ class StopWatchFragment : Fragment() {
                     timeText.text = it
                 }
                 handler.postDelayed(this, 1000)
-                if (timeValue % 3600 == 0 || timeValue != 0) {
+                if (timeValue % 3600 == 0 && timeValue != 0) {
                     val builder = NotificationCompat.Builder(mainActivity, "TimeID").apply {
                         setSmallIcon(R.drawable.baseline_timer_24)
                         setContentTitle(getString(R.string.notification_title))
